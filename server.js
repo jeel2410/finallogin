@@ -1,44 +1,23 @@
-const express = require('express');
-const ejs = require('ejs');
-const path = require('path');
-const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors')
-app.use(cors())
-const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-require('dotenv').config()
 
+const express = require('express');
+const cors = require('cors')
+const mongoose = require('mongoose');
+
+const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cors())
+require('dotenv').config()
 
 const MongoDBURI = process.env.MONGO_URI
 
 mongoose.connect(MongoDBURI, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true
-});
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, () => {
+    console.log("DB connected")
+})
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-});
-
-app.use(session({
-  secret: 'work hard',
-  resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: db
-  })
-}));
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(express.static(__dirname + '/views'));
 
 const index = require('./routes/index');
 app.use('/', index);

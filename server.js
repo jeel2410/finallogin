@@ -3,6 +3,8 @@ const ejs = require('ejs');
 const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require('cors')
+app.use(cors())
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);

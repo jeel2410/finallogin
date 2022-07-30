@@ -19,7 +19,7 @@ router.post("/user", (req, res)=> {
             })
             user.save(err => {
                 if(err) {
-                    res.send(err)
+                    res.status(404).send(err)
                 } else {
                     res.status(200).send( { message: "Successfully Registered, Please login now." })
                 }
@@ -61,7 +61,7 @@ router.post("/doctor", (req, res)=> {
             })
             user.save(err => {
                 if(err) {
-                    res.send(err)
+                    res.status(404).send(err)
                 } else {
                     res.status(200).send( { message: "Successfully Registered, Please login now." })
                 }

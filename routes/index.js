@@ -7,10 +7,10 @@ router.post("/user", (req, res)=> {
     const { name, email, password,passwordConf} = req.body
     User.findOne({email: email}, (err, user) => {
         if(user){
-            res.send({message: "User already registerd"})
+            res.status(409).send({message: "User already registerd"})
         } else {
 			if(password !== passwordConf){
-				return res.send({message: "password doesnt match"})
+				return res.status(409).send({message: "password doesnt match"})
 			}
             const user = new User({
                 name,
@@ -21,7 +21,7 @@ router.post("/user", (req, res)=> {
                 if(err) {
                     res.send(err)
                 } else {
-                    res.send( { message: "Successfully Registered, Please login now." })
+                    res.status(200).send( { message: "Successfully Registered, Please login now." })
                 }
             })
         }
@@ -35,12 +35,12 @@ router.post("/user/login", (req, res)=> {
     User.findOne({ email: email}, (err, user) => {
         if(user){
             if(password === user.password ) {
-                res.send({message: "Login Successfull", user: user})
+                res.status(200).send({message: "Login Successfull", user: user})
             } else {
-                res.send({ message: "Password didn't match"})
+                res.status(409).send({ message: "Password didn't match"})
             }
         } else {
-            res.send({message: "User not registered"})
+            res.status(404).send({message: "User not registered"})
         }
     })
 })
@@ -49,10 +49,10 @@ router.post("/doctor", (req, res)=> {
     const { name, email, password,passwordConf} = req.body
     Doctor.findOne({email: email}, (err, user) => {
         if(user){
-            res.send({message: "User already registerd"})
+            res.status(409).send({message: "User already registerd"})
         } else {
 			if(password !== passwordConf){
-				return res.send({message: "password doesnt match"})
+				return res.status(409).send({message: "password doesnt match"})
 			}
             const user = new Doctor({
                 name,
@@ -63,7 +63,7 @@ router.post("/doctor", (req, res)=> {
                 if(err) {
                     res.send(err)
                 } else {
-                    res.send( { message: "Successfully Registered, Please login now." })
+                    res.status(200).send( { message: "Successfully Registered, Please login now." })
                 }
             })
         }
@@ -77,12 +77,12 @@ router.post("/doctor/login", (req, res)=> {
     Doctor.findOne({ email: email}, (err, user) => {
         if(user){
             if(password === user.password ) {
-                res.send({message: "Login Successfull", user: user})
+                res.status(200).send({message: "Login Successfull", user: user})
             } else {
-                res.send({ message: "Password didn't match"})
+                res.status(409).send({ message: "Password didn't match"})
             }
         } else {
-            res.send({message: "User not registered"})
+            res.status(404).send({message: "User not registered"})
         }
     })
 })
